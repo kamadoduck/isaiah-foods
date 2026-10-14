@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Isaiah's Food Journey - Foods 9 Project</title>
+
+<!-- TAB ICON (favicon): the little picture that shows on the browser tab.
+     It's drawn right here in code, so there's no extra image file needed.
+     A purple-to-blue circle (matching the site's colours) with a white
+     fork and spoon. To use your own picture instead, put "icon.png" in this
+     folder and replace this whole line with:
+     <link rel="icon" href="icon.png"> -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23a78bfa'/%3E%3Cstop offset='1' stop-color='%234f46e5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='30' fill='url(%23g)'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round'%3E%3Cpath d='M22 14v12M17 14v9a5 5 0 0 0 10 0v-9M22 31v20'/%3E%3Cellipse cx='42' cy='21' rx='5.5' ry='8'/%3E%3Cpath d='M42 29v22'/%3E%3C/g%3E%3C/svg%3E">
+
+<!--
+  ==========================================================
+  HOW TO USE THIS WEBSITE
+  ==========================================================
+  1. Save this whole file as "index.html".
+  2. Put your pictures in the SAME FOLDER as this file:
+       About Me:  pokemon-cards.jpg, hockey.jpg, learning-new-things.jpg,
+                  video-games.jpg, sushi.jpg, pasta.jpg, tacos.jpg,
+                  bubble-tea.jpg, sardines.jpg, blue-cheese.jpg
+       Canadian:  bannock.jpg, toffee-bars.jpg, buffalo-burgers.jpg
+       Mexican:   quesadillas.jpg, beef-burritos.jpg, corn-salad-nachos.jpg,
+                  chicken-fajitas.jpg
+       Japanese:  onigiri.jpg, tempura.jpg, gyoza.jpg
+       Home page: newbackground.jpg (the blueberry background)
+       Buttons:   smiley, flag-canada, flag-mexico, flag-japan
+                  (.jpg, .jpeg or .png - small pictures on the Home buttons)
+     Pictures can go next to this file OR in a "foods images" folder -
+     the page checks both places.
+     (plus your own photo for the About Me page)
+  3. Double-click index.html to open it in your browser.
+     Food pictures can also end in .jpeg or .png, and can go in the
+     "foods images" folder instead - the page checks both places.
+  4. To add a new food card, copy one "food-card" block in the
+     Canadian, Mexican or Japanese Foods section below and change the text/image.
+  5. To change colours, scroll to the "COLOURS" part in the
+     <style> section near the top - just change the color codes.
+  ==========================================================
+-->
+
+<style>
+  /* ==========================================================
+     COLOURS - change these to change the whole website's theme!
+     ========================================================== */
+  :root {
+    --bg-color: #15112b;        /* main dark background - deep purple/indigo */
+    --card-color: #211a44;      /* card background - slightly lighter purple */
+    --card-color-light: #2d2560; /* lighter purple for small boxes inside cards */
+    --accent-color: #a78bfa;    /* light purple accent (used for text/borders) */
+    --accent-color-dark: #4f46e5; /* blue-purple (used for gradient endpoint) */
+    --accent-gradient: linear-gradient(135deg, #a78bfa, #4f46e5); /* purple-to-blue gradient */
+    --page-gradient: linear-gradient(160deg, #15112b 0%, #2a1f6b 55%, #4f46e5 100%); /* whole-page background */
+    --accent-glow: rgba(167, 139, 250, 0.4);
+    --shadow-color: rgba(10, 6, 30, 0.6); /* dark purple shadow (instead of black) */
+    --text-color: #f5f5f5;      /* main text colour */
+    --text-muted: #c3b8e8;      /* softer lavender text colour */
+  }
+
+  /* ==========================================================
+     BASIC PAGE SETUP
+     ========================================================== */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth; /* makes nav links scroll smoothly */
+  }
+
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Verdana, Arial, sans-serif;
+    line-height: 1.6;
+  }
+
+  /* One gradient that covers the whole background and stays in place
+     while you scroll, so every page sits on the same purple-to-blue fade */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--page-gradient);
+    z-index: -1;
+  }
+
+  section {
+    padding: 80px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  h1, h2, h3 {
+    font-weight: 700;
+  }
+
+  /* Simple fade-in animation used when sections appear */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .fade-in.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ==========================================================
+     NAVIGATION BAR
+     ========================================================== */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(21, 17, 43, 0.85); /* see-through deep purple */
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px var(--shadow-color);
+  }
+
+  .logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+
+  .logo-text {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+  }
+
+  .nav-links a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .nav-links a:hover {
+    color: var(--accent-color);
+  }
+
+  /* Highlights whichever nav link matches the section you're viewing */
+  .nav-links a.active {
+    color: var(--accent-color);
+  }
+
+  /* Hamburger menu button (only shows on small screens) */
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
+
+  /* ==========================================================
+     HOME / HERO SECTION
+     ========================================================== */
+  #home {
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 100px;
+
+    /* Home page background: the blueberry photo (newbackground.jpg in
+       the "foods images" folder), with a see-through purple layer on top
+       so the title stays easy to read and matches the theme.
+       If the photo is missing, the purple gradient shows on its own. */
+    max-width: none;
+    background:
+      linear-gradient(160deg, rgba(21, 17, 43, 0.70) 0%, rgba(42, 31, 107, 0.55) 55%, rgba(79, 70, 229, 0.45) 100%),
+      /* The page tries each spot below. Whichever one matches where the
+         photo actually is shows up; the rest are simply skipped. */
+      url("foods%20images/newbackground.jpg") center / cover no-repeat,
+      url("foods%20images/newbackground.jpeg") center / cover no-repeat,
+      url("foods%20images/newbackground.jpg.jpg") center / cover no-repeat,
+      url("foods%20images/newbackground.png") center / cover no-repeat,
+      url("newbackground.jpg") center / cover no-repeat,
+      url("newbackground.jpeg") center / cover no-repeat,
+      url("newbackground.jpg.jpg") center / cover no-repeat,
+      url("newbackground.png") center / cover no-repeat,
+      linear-gradient(160deg, #15112b 0%, #2a1f6b 55%, #4f46e5 100%);
+  }
+
+  /* This has to be a separate, more specific rule (rather than just
+     "display: flex" up in #home above) so that .page-section's
+     "display: none" is able to fully hide the Home page whenever
+     it's not the active page - an ID selector would otherwise always
+     beat the class selector and Home would stay visible underneath
+     the other pages. */
+  #home.active-page {
+    display: flex;
+  }
+
+  /* Wrapper for spacing and a max-width around the title + subtitle */
+  .hero-content-box {
+    max-width: 650px;
+    margin-bottom: 30px;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--text-color);
+    text-shadow: 0 2px 12px var(--shadow-color);
+  }
+
+  /* "Food" in the Home page title - white, same as the rest of the title */
+  .hero-title span {
+    color: var(--text-color);
+  }
+
+  .hero-subtitle {
+    max-width: 600px;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 35px;
+    text-shadow: 0 2px 10px var(--shadow-color);
+  }
+
+  /* Reusable button style */
+  .btn {
+    display: inline-block;
+    background: var(--accent-gradient);
+    color: #ffffff;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+
+  /* Little picture on the right side of each Home page button
+     (smiley / flags). Change "height" to make them bigger or smaller. */
+  .btn-icon {
+    height: 1.4em;
+    width: auto;
+    vertical-align: middle;
+    margin-left: 6px;
+    border-radius: 4px;
+  }
+
+  /* Same pictures next to each page title (a little bigger) */
+  .title-icon {
+    height: 1.1em;
+    margin-left: 10px;
+    border-radius: 6px;
+  }
+
+  /* Holds the "Explore" buttons side by side on the Home page */
+  .hero-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* ==========================================================
+     CLICK-TO-VIEW PAGES
+     Only one section shows at a time - clicking a nav link
+     (or an "Explore" button) swaps which one is visible.
+     ========================================================== */
+  .page-section {
+    display: none;
+  }
+
+  .page-section.active-page {
+    display: block;
+  }
+
+  /* ==========================================================
+     SECTION TITLES (used for About Me and the food pages)
+     ========================================================== */
+  .section-title {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+  }
+
+  .section-title span {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 50px;
+  }
+
+  /* ==========================================================
+     ABOUT ME SECTION
+     ========================================================== */
+  .about-photo-placeholder {
+    width: 180px;
+    height: 180px;
+    border-radius: 12px;
+    background-color: var(--card-color);
+    border: 3px dashed var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto 50px auto;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  /* Photo on the left, paragraph on the right */
+  .about-intro {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 50px;
+  }
+
+  /* Your About Me photo - change width/height to resize it */
+  .about-photo {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 3px solid var(--accent-color);
+    flex-shrink: 0;
+  }
+
+  .about-intro .about-photo-placeholder {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .about-text {
+    font-size: 1.15rem;
+    color: var(--text-color);
+    background-color: var(--card-color);
+    border-left: 4px solid var(--accent-color);
+    border-radius: 12px;
+    padding: 25px 30px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+  }
+
+  /* --- (old note) To add your own photo later: ---
+     1. Put your photo file (e.g. "my-photo.jpg") in this folder.
+     2. Replace the <div class="about-photo-placeholder"> below with:
+        <img src="my-photo.jpg" alt="Picture of me" class="about-photo">
+     3. You can style ".about-photo" the same way as the placeholder
+        (width, height, border-radius) if you want it round.
+  */
+
+  .subsection-title {
+    font-size: 1.5rem;
+    margin: 50px 0 20px 0;
+    color: var(--accent-color);
+    text-align: center;
+  }
+
+  /* Grid layout for "Favorites" cards */
+  .top5-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+  }
+
+  .top5-card {
+    background-color: var(--card-color);
+    border-radius: 16px;
+    padding: 25px 15px;
+    text-align: center;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .top5-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+
+  /* Images for the Favorites cards - square, like a little photo tile */
+  .top5-img {
+    width: 110px;
+    height: 110px;
+    border-radius: 12px;
+    object-fit: cover;
+    margin-bottom: 12px;
+    border: 2px solid var(--accent-color);
+  }
+
+  /* Foods I like / don't like layout - each list gets its own full-width
+     line, stacked one after the other (same idea as the Favorites section) */
+  .likes-dislikes {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    margin-top: 20px;
+  }
+
+  .likes-box h4, .dislikes-box h4 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .likes-box h4 {
+    color: var(--accent-color);
+  }
+
+  .dislikes-box h4 {
+    color: #ff6b6b; /* soft red for "dislikes" */
+  }
+
+  /* Foods I don't like reuse the same card look as Favorites,
+     just with a red border on the photo instead of purple */
+  .dislikes-box .top5-img {
+    border-color: #ff6b6b;
+  }
+
+  /* ==========================================================
+     FOOD GALLERY (used by Canadian, Mexican and Japanese Foods)
+     ========================================================== */
+  .food-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+  }
+
+  .food-card {
+    background-color: var(--card-color);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .food-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 25px var(--accent-glow);
+  }
+
+  .food-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;         /* keeps photos looking neat */
+    display: block;
+    background-color: var(--card-color-light); /* shows as a purple box if image is missing */
+  }
+
+  .food-card-content {
+    padding: 20px;
+  }
+
+  .food-card-content h3 {
+    color: var(--accent-color);
+    margin-bottom: 8px;
+  }
+
+  .food-card-content p {
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+
+  .food-details {
+    background-color: var(--card-color-light);
+    border-left: 3px solid var(--accent-color);
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  /* "Click to learn more" button on each food card */
+  .learn-more-btn {
+    width: 100%;
+    background: var(--card-color-light);
+    color: var(--text-color);
+    border: none;
+    border-left: 3px solid var(--accent-color);
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.3s ease;
+  }
+
+  .learn-more-btn:hover {
+    background: var(--accent-gradient);
+  }
+
+  /* The whole card can be clicked too */
+  .food-card {
+    cursor: pointer;
+  }
+
+  /* ==========================================================
+     "LEARN MORE" POPUP
+     Big picture on the left, recipe on the right.
+     ========================================================== */
+  .popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 6, 30, 0.85);
+    z-index: 2000;
+    padding: 30px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .popup-overlay.open {
+    display: flex;
+  }
+
+  .popup-box {
+    position: relative;
+    background-color: var(--card-color);
+    border-radius: 20px;
+    box-shadow: 0 0 40px var(--accent-glow);
+    width: 100%;
+    max-width: 1100px;
+    max-height: 90vh;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    overflow: hidden;
+  }
+
+  .popup-picture {
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+  }
+
+  .popup-picture img {
+    width: 100%;
+    height: 100%;
+    max-height: 90vh;
+    object-fit: contain; /* shows the WHOLE picture, nothing cut off */
+  }
+
+  .popup-info {
+    padding: 30px;
+    overflow-y: auto;
+    max-height: 90vh;
+  }
+
+  .popup-info h3 {
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+    padding-right: 40px;
+  }
+
+  .popup-info .popup-description {
+    color: var(--text-muted);
+    margin-bottom: 25px;
+  }
+
+  .popup-info h4 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+  }
+
+  .recipe-area {
+    background-color: var(--card-color-light);
+    border-radius: 12px;
+    padding: 15px;
+    color: var(--text-muted);
+  }
+
+  .recipe-area iframe {
+    width: 100%;
+    height: 420px;
+    border: none;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  .recipe-area img {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+  }
+
+  .recipe-area .btn {
+    margin-top: 12px;
+    padding: 10px 22px;
+  }
+
+  .popup-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: var(--accent-gradient);
+    color: #fff;
+    font-size: 1.3rem;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  /* ==========================================================
+     BACK TO TOP BUTTON
+     ========================================================== */
+  #backToTop {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: var(--accent-gradient);
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    display: none; /* hidden until you scroll down, controlled by JavaScript */
+    box-shadow: 0 0 15px var(--accent-glow);
+    transition: transform 0.3s ease;
+    z-index: 999;
+  }
+
+  #backToTop:hover {
+    transform: translateY(-5px);
+  }
+
+  /* ==========================================================
+     FOOTER
+     ========================================================== */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+    border-top: 1px solid rgba(167, 139, 250, 0.25); /* faint purple line */
+  }
+
+  footer .footer-highlight {
+    color: var(--accent-color);
+    font-weight: bold;
+  }
+
+  /* ==========================================================
+     RESPONSIVE / MOBILE STYLES
+     ========================================================== */
+  @media (max-width: 768px) {
+    .menu-toggle {
+      display: block;
+    }
+
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: rgba(21, 17, 43, 0.98); /* deep purple dropdown */
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .nav-links.open {
+      max-height: 400px; /* opens the mobile menu */
+    }
+
+    .nav-links li {
+      padding: 15px 0;
+    }
+
+    .hero-title {
+      font-size: 2.2rem;
+    }
+
+    .about-intro {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    /* Popup: picture on top, recipe underneath on phones */
+    .popup-overlay {
+      padding: 10px;
+    }
+
+    .popup-box {
+      grid-template-columns: 1fr;
+      overflow-y: auto;
+    }
+
+    .popup-picture img {
+      max-height: 45vh;
+    }
+
+    .popup-info {
+      max-height: none;
+      overflow: visible;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ==========================================================
+       NAVIGATION BAR
+       ========================================================== -->
+  <nav>
+    <div class="logo"><span class="logo-emoji">🍽️</span> <span class="logo-text">Isaiah's Food Journey</span></div>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About Me</a></li>
+      <li><a href="#foods">Canadian Foods</a></li>
+      <li><a href="#mexican">Mexican Foods</a></li>
+      <li><a href="#japanese">Japanese Foods</a></li>
+    </ul>
+  </nav>
+
+  <!-- ==========================================================
+       HOME SECTION
+       ========================================================== -->
+  <section id="home" class="page-section active-page">
+    <div class="hero-content-box">
+      <h1 class="hero-title">Isaiah's <span>Food</span> Journey</h1>
+      <p class="hero-subtitle">
+        Welcome! This website is my Foods 9 class project, where I share
+        what I've learned about cooking and show off the foods I've made
+        in class.
+      </p>
+    </div>
+    <!-- Each button shows a little picture to the RIGHT of the words.
+         Name the pictures:  smiley, flag-canada, flag-mexico, flag-japan
+         They can end in .jpg, .jpeg or .png, and can go in the
+         "foods images" folder OR next to index.html - the page checks
+         all of those. If a picture isn't found anywhere, the button
+         shows the emoji instead (see "Home page button pictures" in
+         the JavaScript near the bottom). -->
+    <div class="hero-buttons">
+      <a href="#about" class="btn">Explore About Me <img data-name="smiley" alt="😊" class="btn-icon"></a>
+      <a href="#foods" class="btn">Explore Canadian Foods <img data-name="flag-canada" alt="🇨🇦" class="btn-icon"></a>
+      <a href="#mexican" class="btn">Explore Mexican Foods <img data-name="flag-mexico" alt="🇲🇽" class="btn-icon"></a>
+      <a href="#japanese" class="btn">Explore Japanese Foods <img data-name="flag-japan" alt="🇯🇵" class="btn-icon"></a>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       ABOUT ME SECTION
+       ========================================================== -->
+  <section id="about" class="page-section">
+    <h2 class="section-title">About <span>Me</span> <img data-name="smiley" alt="😊" class="btn-icon title-icon"></h2>
+    <p class="section-subtitle">A little bit about who I am, on and off the cutting board.</p>
+
+    <!-- My photo (left) + intro paragraph (right).
+         Name your photo "about-me" (.jpg, .jpeg or .png) and put it in
+         the "foods images" folder or next to index.html. Until it's
+         found, the dashed "Add your photo here!" box shows instead. -->
+    <div class="about-intro fade-in">
+      <img data-name="about-me" alt="Picture of me" class="about-photo">
+      <div class="about-photo-placeholder" style="display:none">
+        Add your photo here!<br>(name it about-me.jpg)
+      </div>
+      <p class="about-text">
+        Hi, I'm Isaiah. This is my Foods 9 Website. I really enjoy cooking
+        with my friends and family. My top values are my faith, family, and
+        friends. I enjoy doing things like playing Fortnite, sports such as
+        hockey, and learning new things.
+      </p>
+    </div>
+
+    <!-- My Favorites -->
+    <h3 class="subsection-title">My Favorites</h3>
+    <div class="top5-grid">
+      <div class="top5-card fade-in">
+        <img src="pokemon-cards.jpg" alt="Pokemon cards" class="top5-img">
+        <p>Collecting Pokémon Cards</p>
+      </div>
+      <div class="top5-card fade-in">
+        <img src="hockey.jpg" alt="Hockey" class="top5-img">
+        <p>Hockey</p>
+      </div>
+      <div class="top5-card fade-in">
+        <img src="learning-new-things.jpg" alt="Learning new things" class="top5-img">
+        <p>Learning New Things</p>
+      </div>
+      <div class="top5-card fade-in">
+        <img src="video-games.jpg" alt="Video games" class="top5-img">
+        <p>Video Games</p>
+      </div>
+    </div>
+
+    <!-- Foods I like / don't like -->
+    <div class="likes-dislikes">
+      <div class="likes-box fade-in">
+        <h4>Foods I Like to Eat</h4>
+        <div class="top5-grid">
+          <div class="top5-card fade-in">
+            <img src="sushi.jpg" alt="Sushi" class="top5-img">
+            <p>Sushi</p>
+          </div>
+          <div class="top5-card fade-in">
+            <img src="pasta.jpg" alt="Pasta" class="top5-img">
+            <p>Pasta</p>
+          </div>
+          <div class="top5-card fade-in">
+            <img src="tacos.jpg" alt="Tacos" class="top5-img">
+            <p>Tacos</p>
+          </div>
+          <div class="top5-card fade-in">
+            <img src="bubble-tea.jpg" alt="Bubble tea" class="top5-img">
+            <p>Bubble Tea</p>
+          </div>
+        </div>
+      </div>
+      <div class="dislikes-box fade-in">
+        <h4>Foods I Don't Like</h4>
+        <div class="top5-grid">
+          <div class="top5-card fade-in">
+            <img src="sardines.jpg" alt="Sardines" class="top5-img">
+            <p>Sardines</p>
+          </div>
+          <div class="top5-card fade-in">
+            <img src="blue-cheese.jpg" alt="Blue cheese" class="top5-img">
+            <p>Blue Cheese</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       CANADIAN FOODS SECTION (Gallery)
+       ========================================================== -->
+  <section id="foods" class="page-section">
+    <h2 class="section-title">Canadian <span>Foods</span> <img data-name="flag-canada" alt="🇨🇦" class="btn-icon title-icon"></h2>
+    <p class="section-subtitle">Canadian foods I've cooked so far for Foods 9.</p>
+
+    <div class="food-gallery">
+
+      <!-- FOOD CARD 1: Bannock -->
+      <div class="food-card fade-in">
+        <img src="bannock.jpg" alt="Bannock I cooked">
+        <div class="food-card-content">
+          <h3>Bannock</h3>
+          <p>A traditional pan-fried or baked bread, popular in Indigenous and Métis cooking across Canada.</p>
+          <button class="learn-more-btn">Click to learn more ➜</button>
+        </div>
+      </div>
+
+      <!-- FOOD CARD 2: Toffee Bars -->
+      <div class="food-card fade-in">
+        <img src="toffee-bars.jpg" alt="Toffee bars I made">
+        <div class="food-card-content">
+          <h3>Toffee Bars</h3>
+          <p>A sweet, buttery dessert bar with a crunchy toffee layer - a classic Canadian treat.</p>
+          <button class="learn-more-btn">Click to learn more ➜</button>
+        </div>
+      </div>
+
+      <!-- FOOD CARD 3: Buffalo Burgers -->
+      <div class="food-card fade-in">
+        <img src="buffalo-burgers.jpg" alt="Buffalo burger I cooked">
+        <div class="food-card-content">
+          <h3>Buffalo Burgers</h3>
+          <p>A hearty burger made from bison, a lean alternative that's popular across the Canadian prairies.</p>
+          <button class="learn-more-btn">Click to learn more ➜</button>
+        </div>
+      </div>
+
+      <!-- ==========================================================
+           TO ADD A NEW FOOD CARD:
+           Copy everything from "<div class="food-card fade-in">"
+           down to the matching closing "</div>" above, paste it
+           below this comment, and change the details!
+           ========================================================== -->
+
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       MEXICAN FOODS SECTION (Gallery)
+       ========================================================== -->
+  <section id="mexican" class="page-section">
+    <h2 class="section-title">Mexican <span>Foods</span> <img data-name="flag-mexico" alt="🇲🇽" class="btn-icon title-icon"></h2>
+    <p class="section-subtitle">Mexican foods I've cooked so far for Foods 9.</p>
+
+    <div class="food-gallery">
+
+      <!-- FOOD CARD 1: Quesadillas -->
+      <div class="food-card fade-in">
+        <img src="quesadillas.jpg" alt="Quesadillas I made">
+        <div class="food-card-content">
+          <h3>Quesadillas</h3>
+          <p>Tortillas filled with melted cheese (and sometimes meat or veggies), folded and grilled until golden and crispy.</p>
+          <button class="learn-more-btn">Click to learn more ➜</button>
+        </div>
+      </div>
+
+      <!-- FOOD CARD 2: Beef Burritos -->
+      <div class="food-card fade-in">
+        <img src="beef-burritos.jpg" alt="Beef burritos I made">
+        <div class="food-card-content">
+          <h3>Beef Burritos</h3>
+          <p>Large flour tortillas wrapped around seasoned ground beef, cheese, and toppings - a filling, easy meal.</p>
+          <button class="learn-more-btn">Click to learn more ➜</button>
+        </div>
+      </div>
+
+      <!-- FOOD CARD 3: Corn Salad and Nachos -->
+      <div class="food-card fade-in">
+        <img src="corn-salad-nachos.jpg" alt="Corn salad and nachos I made">
+        <div class="food-card-content">
+          <h3>Corn Salad and Nachos</h3>
+          <p>A creamy corn salad with red and green peppers, onion, and cilantro, served in a bowl surrounded by crunchy tortilla chips for scooping.</p>
+          <button class="learn-more-btn">Click to learn more ➜</button>
+        </div>
+      </div>
+
+      <!-- FOOD CARD 4: Chicken Fajitas -->
+      <div class="food-card fade-in">
+        <img src="chicken-fajitas.jpg" alt="Chicken fajitas I made">
+        <div class="food-card-content">
+          <h3>Chicken Fajitas</h3>
+          <p>Strips of seasoned chicken sizzled with peppers and onions, wrapped in warm tortillas with your favourite toppings.</p>
+          <button class="learn-more-btn">Click to learn more ➜</button>
+        </div>
+      </div>
+
+      <!-- ==========================================================
+           TO ADD A NEW FOOD CARD:
+           Copy everything from "<div class="food-card fade-in">"
+           down to the matching closing "</div>" above, paste it
+           below this comment, and change the details!
+           ========================================================== -->
+
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       JAPANESE FOODS SECTION (Gallery)
+       ========================================================== -->
+  <section id="japanese" class="page-section">
+    <h2 class="section-title">Japanese <span>Foods</span> <img data-name="flag-japan" alt="🇯🇵" class="btn-icon title-icon"></h2>
+    <p class="section-subtitle">Japanese foods I've cooked so far for Foods 9.</p>
+
+    <div class="food-gallery">
+
+      <!-- FOOD CARD 1: Onigiri -->
+      <div class="food-card fade-in">
+        <img src="onigiri.jpg" alt="Onigiri I made">
+        <div class="food-card-content">
+          <h3>Onigiri</h3>
+          <p>Japanese rice balls shaped into triangles, often filled with tuna, salmon, or pickled plum and wrapped in a strip of seaweed.</p>
+          <button class="learn-more-btn">Click to learn more ➜</button>
+        </div>
+      </div>
+
+      <!-- FOOD CARD 2: Tempura -->
+      <div class="food-card fade-in">
+        <img src="tempura.jpg" alt="Tempura I made">
+        <div class="food-card-content">
+          <h3>Tempura</h3>
+          <p>Shrimp and vegetables dipped in a light, ice-cold batter and deep-fried until crispy, served with a dipping sauce.</p>
+          <button class="learn-more-btn">Click to learn more ➜</button>
+        </div>
+      </div>
+
+      <!-- FOOD CARD 3: Gyoza -->
+      <div class="food-card fade-in">
+        <img src="gyoza.jpg" alt="Gyoza I made">
+        <div class="food-card-content">
+          <h3>Gyoza</h3>
+          <p>Pan-fried dumplings filled with seasoned pork and cabbage - crispy on the bottom and soft and steamed on top.</p>
+          <button class="learn-more-btn">Click to learn more ➜</button>
+        </div>
+      </div>
+
+      <!-- ==========================================================
+           TO ADD A NEW FOOD CARD:
+           Copy everything from "<div class="food-card fade-in">"
+           down to the matching closing "</div>" above, paste it
+           below this comment, and change the details!
+           ========================================================== -->
+
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       FOOTER
+       ========================================================== -->
+  <footer>
+    <p>Made with 🍳 for <span class="footer-highlight">Foods 9</span></p>
+    <p>&copy; 2026 Isaiah's Food Journey</p>
+  </footer>
+
+  <!-- ==========================================================
+       "LEARN MORE" POPUP (filled in by JavaScript when a card is clicked)
+       ========================================================== -->
+  <div class="popup-overlay" id="popup">
+    <div class="popup-box">
+      <button class="popup-close" id="popupClose" title="Close">✕</button>
+      <div class="popup-picture">
+        <img id="popupImg" alt="">
+      </div>
+      <div class="popup-info">
+        <h3 id="popupTitle"></h3>
+        <p class="popup-description" id="popupDesc"></p>
+        <h4>📄 Recipe</h4>
+        <div class="recipe-area" id="recipeArea"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button id="backToTop" title="Back to Top">⬆</button>
+
+  <!-- ==========================================================
+       JAVASCRIPT
+       ========================================================== -->
+  <script>
+    // ----- Home page button pictures -----
+    // Each button picture tries these spots in order until one works.
+    // If none of them work, the emoji (the picture's "alt" text) shows instead.
+    const pictureFolders = ['foods%20images/', ''];        // '' = next to index.html
+    const pictureEndings = ['.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG'];
+
+    document.querySelectorAll('.btn-icon, .about-photo').forEach(function (img) {
+      const tries = [];
+      pictureFolders.forEach(function (folder) {
+        pictureEndings.forEach(function (ending) {
+          tries.push(folder + img.dataset.name + ending);
+        });
+      });
+      let i = 0;
+      img.onerror = function () {
+        i++;
+        if (i < tries.length) {
+          img.src = tries[i];
+        } else {
+          if (img.classList.contains('about-photo')) {
+            // nothing found - show the dashed "Add your photo" box
+            img.nextElementSibling.style.display = 'flex';
+            img.remove();
+          } else {
+            img.outerHTML = img.alt; // nothing found - show the emoji
+          }
+        }
+      };
+      img.src = tries[0];
+    });
+
+    // ----- Food & favourites pictures: try other spots if missing -----
+    // If a picture like "bannock.jpg" isn't found, the page also tries
+    // .jpeg / .png endings, and the "foods images" folder, before giving up.
+    document.querySelectorAll('.food-card img, .top5-img').forEach(function (img) {
+      const original = img.getAttribute('src');
+      img.setAttribute('data-original', original); // remembered for the recipe popup
+      const base = original.replace(/^foods%20images\//, '').replace(/\.(jpe?g|png)$/i, '');
+      const tries = [];
+      ['', 'foods%20images/'].forEach(function (folder) {
+        ['.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG'].forEach(function (ending) {
+          const path = folder + base + ending;
+          if (path !== original) tries.push(path);
+        });
+      });
+      let i = 0;
+      function tryNext() {
+        if (i < tries.length) img.src = tries[i++];
+        else img.onerror = null; // nothing found - leave the empty purple box
+      }
+      img.onerror = tryNext;
+      if (img.complete && img.naturalWidth === 0) tryNext(); // already failed before this ran
+    });
+
+    // ----- "Click to learn more" popup -----
+    // HOW TO ADD A RECIPE: save the recipe file in your folder (or in
+    // "foods images") named after the food's picture + "-recipe".
+    //   Example: picture is bannock.jpg  ->  recipe is bannock-recipe.pdf
+    // It can be a .pdf, a picture (.jpg/.jpeg/.png), or a Word file (.docx).
+    const popup = document.getElementById('popup');
+    const popupImg = document.getElementById('popupImg');
+    const popupTitle = document.getElementById('popupTitle');
+    const popupDesc = document.getElementById('popupDesc');
+    const recipeArea = document.getElementById('recipeArea');
+    const recipeFolders = ['', 'foods%20images/'];
+    const recipeEndings = ['.pdf', '.PDF', '.jpg', '.jpeg', '.png', '.JPG', '.JPEG', '.PNG', '.docx'];
+
+    // Checks whether a file exists in the folder (works when the page is
+    // opened straight from the computer). Calls back with true/false.
+    const probing = {};
+    window.addEventListener('error', function (e) {
+      if (e.filename && probing[e.filename]) e.preventDefault(); // hide harmless "not a script" errors
+    }, true);
+    function fileExists(path, callback) {
+      if (/\.(jpe?g|png)$/i.test(path)) {
+        // pictures are checked by trying to load them as a picture
+        const test = new Image();
+        test.onload = function () { callback(true); };
+        test.onerror = function () { callback(false); };
+        test.src = path;
+        return;
+      }
+      const s = document.createElement('script');
+      s.src = path;
+      probing[s.src] = true;
+      s.onload = function () { s.remove(); callback(true); };
+      s.onerror = function () { s.remove(); callback(false); };
+      document.head.appendChild(s);
+    }
+
+    function findRecipe(base, callback) {
+      const tries = [];
+      recipeFolders.forEach(function (folder) {
+        recipeEndings.forEach(function (ending) {
+          tries.push(folder + base + '-recipe' + ending);
+        });
+      });
+      let i = 0;
+      (function next() {
+        if (i >= tries.length) return callback(null);
+        const path = tries[i++];
+        fileExists(path, function (found) {
+          if (found) callback(path); else next();
+        });
+      })();
+    }
+
+    function showRecipe(path, base) {
+      if (!path) {
+        recipeArea.innerHTML = '<p>Recipe coming soon!</p>' +
+          '<p style="font-size:0.85rem;margin-top:8px;opacity:0.7">(Add a file called <b>' +
+          base + '-recipe.pdf</b> to the website folder.)</p>';
+        return;
+      }
+      const lower = path.toLowerCase();
+      if (lower.endsWith('.pdf')) {
+        recipeArea.innerHTML = '<iframe src="' + path + '" title="Recipe"></iframe>' +
+          '<a class="btn" href="' + path + '" target="_blank">Open recipe full size</a>';
+      } else if (lower.endsWith('.docx')) {
+        recipeArea.innerHTML = '<p>The recipe is a Word file.</p>' +
+          '<a class="btn" href="' + path + '" download>Download recipe</a>';
+      } else {
+        recipeArea.innerHTML = '<img src="' + path + '" alt="Recipe">' +
+          '<a class="btn" href="' + path + '" target="_blank">Open recipe full size</a>';
+      }
+    }
+
+    function openPopup(card) {
+      const img = card.querySelector('img');
+      // The food's name for recipe files comes from its picture name,
+      // e.g. "foods images/bannock.jpg" -> "bannock"
+      const base = card.dataset.recipe ||
+        decodeURIComponent(img.getAttribute('data-original') || img.getAttribute('src'))
+          .split('/').pop().replace(/\.[a-z]+$/i, '');
+      popupImg.src = img.currentSrc || img.src;
+      popupImg.alt = img.alt;
+      popupTitle.textContent = card.querySelector('h3').textContent;
+      popupDesc.textContent = card.querySelector('.food-card-content p').textContent;
+      recipeArea.innerHTML = '<p>Loading recipe...</p>';
+      findRecipe(base, function (path) { showRecipe(path, base); });
+      popup.classList.add('open');
+      document.body.style.overflow = 'hidden'; // stop the page scrolling behind
+    }
+
+    function closePopup() {
+      popup.classList.remove('open');
+      recipeArea.innerHTML = '';
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.food-card').forEach(function (card) {
+      const img = card.querySelector('img');
+      if (!img.getAttribute('data-original')) img.setAttribute('data-original', img.getAttribute('src'));
+      card.addEventListener('click', function () { openPopup(card); });
+    });
+    document.getElementById('popupClose').addEventListener('click', closePopup);
+    popup.addEventListener('click', function (e) {
+      if (e.target === popup) closePopup(); // clicking the dark area closes it
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closePopup();
+    });
+
+    // ----- Mobile menu toggle -----
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    menuToggle.addEventListener('click', function () {
+      navLinks.classList.toggle('open');
+    });
+
+    // Close the mobile menu after clicking a link
+    document.querySelectorAll('.nav-links a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        navLinks.classList.remove('open');
+      });
+    });
+
+    // ----- Back to Top button -----
+    const backToTopBtn = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', function () {
+      // Show the button only after scrolling down 400px
+      if (window.scrollY > 400) {
+        backToTopBtn.style.display = 'block';
+      } else {
+        backToTopBtn.style.display = 'none';
+      }
+    });
+
+    backToTopBtn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ----- Click-to-view pages -----
+    // Only one <section> is shown at a time. Clicking a nav link (or an
+    // "Explore" button) hides every section and shows just the one that
+    // was clicked.
+    const pageSections = document.querySelectorAll('.page-section');
+    const navLinkElements = document.querySelectorAll('.nav-links a');
+    const pageLinks = document.querySelectorAll('a[href^="#"]'); // nav links + the hero buttons
+
+    function showSection(targetId) {
+      // Hide every section, then show just the one being requested
+      pageSections.forEach(function (section) {
+        section.classList.toggle('active-page', ('#' + section.id) === targetId);
+      });
+
+      // Highlight the matching nav link
+      navLinkElements.forEach(function (link) {
+        link.classList.toggle('active', link.getAttribute('href') === targetId);
+      });
+
+      // Jump straight to the top for the newly shown section - set the
+      // scroll position directly instead of using scrollTo() so it can't
+      // get delayed or animated by the smooth-scrolling set up above
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0; // needed for some older/mobile browsers
+
+      // Replay the fade-in animation for everything inside the new section
+      const target = document.querySelector(targetId);
+      if (target) {
+        const fadeElements = target.querySelectorAll('.fade-in');
+        fadeElements.forEach(function (el) {
+          el.classList.remove('show');
+        });
+        // Force the browser to register the "hidden" state before we
+        // add "show" back, so the fade-in transition actually plays
+        void target.offsetWidth;
+        requestAnimationFrame(function () {
+          fadeElements.forEach(function (el) {
+            el.classList.add('show');
+          });
+        });
+      }
+    }
+
+    pageLinks.forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        const targetId = link.getAttribute('href');
+        // Only intercept links that point to one of our page sections
+        if (document.querySelector(targetId + '.page-section')) {
+          e.preventDefault();
+          // Update the URL hash so the browser's back/forward buttons
+          // and page refresh remember which page you're on
+          history.pushState(null, '', targetId);
+          showSection(targetId);
+        }
+      });
+    });
+
+    // Keep the page in sync with the browser's back/forward buttons
+    window.addEventListener('popstate', function () {
+      const hash = window.location.hash;
+      const validHash = hash && document.querySelector(hash + '.page-section');
+      showSection(validHash ? hash : '#home');
+    });
+
+    // On first load, show whatever page is in the URL (if any),
+    // instead of always forcing the Home page
+    const startingHash = window.location.hash;
+    const startingIsValid = startingHash && document.querySelector(startingHash + '.page-section');
+    showSection(startingIsValid ? startingHash : '#home');
+  </script>
+
+</body>
+</html>
